@@ -48,10 +48,10 @@ class EWZRecaptchaExtension extends Extension
 
         foreach ($config['service_definition'] as $serviceDefinition) {
             $container->register('ewz_recaptcha.'.$serviceDefinition['service_name'], FormBuilderInterface::class)
-                ->setFactory(array(
+                ->setFactory([
                     new Reference('ewz_recaptcha.form_builder_factory'),
                     'get',
-                ))
+                ])
                 ->setArguments([$serviceDefinition['options']]);
         }
     }
@@ -65,14 +65,14 @@ class EWZRecaptchaExtension extends Extension
     {
         $templatingEngines = $container->hasParameter('templating.engines')
             ? $container->getParameter('templating.engines')
-            : array('twig');
+            : ['twig'];
 
         if (in_array('php', $templatingEngines, true)) {
             $formResource = 'EWZRecaptchaBundle:Form';
 
             $container->setParameter('templating.helper.form.resources', array_merge(
                 $container->getParameter('templating.helper.form.resources'),
-                array($formResource)
+                [$formResource]
             ));
         }
 
@@ -84,7 +84,7 @@ class EWZRecaptchaExtension extends Extension
 
             $container->setParameter('twig.form.resources', array_merge(
                 $this->getTwigFormResources($container),
-                array($formResource)
+                [$formResource]
             ));
         }
     }

@@ -7,27 +7,15 @@ use Symfony\Component\HttpFoundation\RequestStack;
 /**
  * Depending on the configuration resolves the correct locale for the reCAPTCHA.
  */
-final class LocaleResolver
+final readonly class LocaleResolver
 {
-    /** @var string */
-    private string $defaultLocale;
-
-    /** @var bool */
-    private bool $useLocaleFromRequest;
-
-    /** @var RequestStack */
-    private RequestStack $requestStack;
-
     /**
      * @param string       $defaultLocale
      * @param bool         $useLocaleFromRequest
      * @param RequestStack $requestStack
      */
-    public function __construct(string $defaultLocale, bool $useLocaleFromRequest, RequestStack $requestStack)
+    public function __construct(private string $defaultLocale, private bool $useLocaleFromRequest, private RequestStack $requestStack)
     {
-        $this->defaultLocale = $defaultLocale;
-        $this->useLocaleFromRequest = $useLocaleFromRequest;
-        $this->requestStack = $requestStack;
     }
 
     /**

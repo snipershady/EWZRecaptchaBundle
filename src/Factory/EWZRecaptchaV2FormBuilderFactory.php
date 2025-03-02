@@ -8,14 +8,11 @@ use Symfony\Component\Form\FormFactoryInterface;
 
 class EWZRecaptchaV2FormBuilderFactory
 {
-    private FormFactoryInterface $builder;
-
-    public function __construct(FormFactoryInterface $builder)
+    public function __construct(private readonly FormFactoryInterface $builder)
     {
-        $this->builder = $builder;
     }
 
-    public function get(array $options = array()) :FormBuilderInterface
+    public function get(array $options = []) :FormBuilderInterface
     {
         $constraint = [
             'constraints' => [

@@ -11,25 +11,11 @@ use ReCaptcha\RequestParameters;
 class ProxyPost implements RequestMethod
 {
     /**
-     * HTTP Proxy informations.
-     *
-     * @var array
-     */
-    private array $httpProxy;
-
-    /**
      * The reCAPTCHA verify server URL.
      *
      * @var string
      */
-    private string $recaptchaVerifyUrl;
-
-    /**
-     * The timeout for the reCAPTCHA verification.
-     *
-     * @var int|null
-     */
-    private ?int $timeout;
+    private readonly string $recaptchaVerifyUrl;
 
     /** @var array */
     private array $cache;
@@ -41,11 +27,15 @@ class ProxyPost implements RequestMethod
      * @param string   $recaptchaVerifyServer
      * @param int|null $timeout
      */
-    public function __construct(array $httpProxy, string $recaptchaVerifyServer, ?int $timeout)
+    public function __construct(/**
+     * HTTP Proxy informations.
+     */
+    private array $httpProxy, string $recaptchaVerifyServer, /**
+     * The timeout for the reCAPTCHA verification.
+     */
+    private readonly ?int $timeout)
     {
-        $this->httpProxy = $httpProxy;
         $this->recaptchaVerifyUrl = ($recaptchaVerifyServer ?: 'https://www.google.com').'/recaptcha/api/siteverify';
-        $this->timeout = $timeout;
         $this->cache = [];
     }
 
@@ -64,7 +54,7 @@ class ProxyPost implements RequestMethod
         }
 
         $proxyAuth = !empty($this->httpProxy['auth'])
-            ? sprintf('Proxy-Authorization: Basic %s', base64_encode($this->httpProxy['auth']))
+            ? sprintf('Proxy-Authorization: Basic %s', base64_encode((string) $this->httpProxy['auth']))
             : null;
 
         /**

@@ -15,23 +15,8 @@ use function is_string;
 
 class IsTrueValidatorV3 extends ConstraintValidator
 {
-    /** @var bool */
-    private bool $enabled;
-
     /** @var string */
-    private string $secretKey;
-
-    /** @var float */
-    private float $scoreThreshold;
-    
-    /** @var ReCaptcha */
-    private ReCaptcha $reCaptcha;
-
-    /** @var RequestStack */
-    private RequestStack $requestStack;
-
-    /** @var LoggerInterface */
-    private LoggerInterface $logger;
+    private readonly string $secretKey;
 
     /**
      * ContainsRecaptchaValidator constructor.
@@ -42,18 +27,8 @@ class IsTrueValidatorV3 extends ConstraintValidator
      * @param RequestStack    $requestStack
      * @param LoggerInterface $logger
      */
-    public function __construct(
-        bool $enabled,
-        float $scoreThreshold,
-        ReCaptcha $reCaptcha,
-        RequestStack $requestStack,
-        LoggerInterface $logger
-    ) {
-        $this->enabled = $enabled;
-        $this->scoreThreshold = $scoreThreshold;
-        $this->reCaptcha = $reCaptcha;
-        $this->requestStack = $requestStack;
-        $this->logger = $logger;
+    public function __construct(private readonly bool $enabled, private readonly float $scoreThreshold, private readonly ReCaptcha $reCaptcha, private readonly RequestStack $requestStack, private readonly LoggerInterface $logger)
+    {
     }
 
     /**

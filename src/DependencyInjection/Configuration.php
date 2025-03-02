@@ -41,7 +41,7 @@ class Configuration implements ConfigurationInterface
                 ->floatNode('score_threshold')->min(0.0)->max(1.0)->defaultValue(0.5)->end()
 
                 ->integerNode('timeout')->min(0)->defaultNull()->end()
-                ->arrayNode('trusted_roles')->prototype('scalar')->treatNullLike(array())->end()
+                ->arrayNode('trusted_roles')->prototype('scalar')->treatNullLike([])->end()
             ->end()
         ;
 

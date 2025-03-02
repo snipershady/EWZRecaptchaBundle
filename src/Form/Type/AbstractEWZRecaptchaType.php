@@ -9,27 +9,6 @@ use Symfony\Component\Form\FormView;
 abstract class AbstractEWZRecaptchaType extends AbstractType
 {
     /**
-     * The public key.
-     *
-     * @var string
-     */
-    protected string $publicKey;
-
-    /**
-     * Enable recaptcha?
-     *
-     * @var bool
-     */
-    protected bool $enabled;
-
-    /**
-     * The API server host name.
-     *
-     * @var string
-     */
-    protected string $apiHost;
-
-    /**
      * The reCAPTCHA server URL.
      *
      * @var string
@@ -41,12 +20,18 @@ abstract class AbstractEWZRecaptchaType extends AbstractType
      * @param bool $enabled   Recaptcha status
      * @param string $apiHost   Api host
      */
-    public function __construct(string $publicKey, bool $enabled, string $apiHost = 'www.google.com')
+    public function __construct(/**
+     * The public key.
+     */
+    protected string $publicKey, /**
+     * Enable recaptcha?
+     */
+    protected bool $enabled, /**
+     * The API server host name.
+     */
+    protected string $apiHost = 'www.google.com')
     {
-        $this->publicKey = $publicKey;
-        $this->enabled = $enabled;
-        $this->apiHost = $apiHost;
-        $this->recaptchaApiServer = sprintf('https://%s/recaptcha/api.js', $apiHost);
+        $this->recaptchaApiServer = sprintf('https://%s/recaptcha/api.js', $this->apiHost);
     }
 
     /**
@@ -54,12 +39,12 @@ abstract class AbstractEWZRecaptchaType extends AbstractType
      */
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
-        $view->vars = array_replace($view->vars, array(
+        $view->vars = array_replace($view->vars, [
             'ewz_recaptcha_enabled' => $this->enabled,
             'ewz_recaptcha_api_host' => $this->apiHost,
             'ewz_recaptcha_api_uri' => $this->recaptchaApiServer,
             'public_key' => $this->publicKey,
-        ));
+        ]);
 
         if (!$this->enabled) {
             return;
@@ -71,6 +56,7 @@ abstract class AbstractEWZRecaptchaType extends AbstractType
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'ewz_recaptcha';

@@ -11,9 +11,6 @@ class EWZRecaptchaV3Type extends AbstractEWZRecaptchaType
 {
     public const DEFAULT_ACTION_NAME = 'form';
 
-    /** @var bool */
-    private bool $hideBadge;
-
     /**
      * EWZRecaptchaV3Type constructor.
      *
@@ -22,11 +19,9 @@ class EWZRecaptchaV3Type extends AbstractEWZRecaptchaType
      * @param bool   $hideBadge
      * @param string $apiHost
      */
-    public function __construct(string $publicKey, bool $enabled, bool $hideBadge, string $apiHost = 'www.google.com')
+    public function __construct(string $publicKey, bool $enabled, private readonly bool $hideBadge, string $apiHost = 'www.google.com')
     {
         parent::__construct($publicKey, $enabled, $apiHost);
-
-        $this->hideBadge = $hideBadge;
     }
 
     /**
@@ -50,6 +45,7 @@ class EWZRecaptchaV3Type extends AbstractEWZRecaptchaType
      * 
      * @return string
      */
+    #[\Override]
     public function getParent(): string
     {
         return HiddenType::class;

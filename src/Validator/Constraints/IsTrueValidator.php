@@ -13,48 +13,6 @@ use function is_callable;
 class IsTrueValidator extends ConstraintValidator
 {
     /**
-     * Enable recaptcha?
-     *
-     * @var bool
-     */
-    protected bool $enabled;
-
-    /**
-     * Recaptcha.
-     *
-     * @var ReCaptcha
-     */
-    protected ReCaptcha $recaptcha;
-
-    /**
-     * Request Stack.
-     *
-     * @var RequestStack
-     */
-    protected RequestStack $requestStack;
-
-    /**
-     * Enable serverside host check.
-     *
-     * @var bool
-     */
-    protected bool $verifyHost;
-
-    /**
-     * Authorization Checker.
-     *
-     * @var AuthorizationCheckerInterface|null
-     */
-    protected ?AuthorizationCheckerInterface $authorizationChecker;
-
-    /**
-     * Trusted Roles.
-     *
-     * @var array
-     */
-    protected array $trustedRoles;
-
-    /**
      * @param bool                               $enabled
      * @param ReCaptcha                          $recaptcha
      * @param RequestStack                       $requestStack
@@ -63,19 +21,32 @@ class IsTrueValidator extends ConstraintValidator
      * @param array                              $trustedRoles
      */
     public function __construct(
-        bool $enabled,
-        ReCaptcha $recaptcha,
-        RequestStack $requestStack,
-        bool $verifyHost,
-        ?AuthorizationCheckerInterface $authorizationChecker = null,
-        array $trustedRoles = array())
+        /**
+         * Enable recaptcha?
+         */
+        protected bool $enabled,
+        /**
+         * Recaptcha.
+         */
+        protected ReCaptcha $recaptcha,
+        /**
+         * Request Stack.
+         */
+        protected RequestStack $requestStack,
+        /**
+         * Enable serverside host check.
+         */
+        protected bool $verifyHost,
+        /**
+         * Authorization Checker.
+         */
+        protected ?AuthorizationCheckerInterface $authorizationChecker = null,
+        /**
+         * Trusted Roles.
+         */
+        protected array $trustedRoles = []
+    )
     {
-        $this->enabled = $enabled;
-        $this->recaptcha = $recaptcha;
-        $this->requestStack = $requestStack;
-        $this->verifyHost = $verifyHost;
-        $this->authorizationChecker = $authorizationChecker;
-        $this->trustedRoles = $trustedRoles;
     }
 
     /**
@@ -95,7 +66,7 @@ class IsTrueValidator extends ConstraintValidator
             return;
         }
 
-        if (is_callable([$this->requestStack, 'getMainRequest'])) {
+        if (is_callable($this->requestStack->getMainRequest(...))) {
             $request = $this->requestStack->getMainRequest();   // symfony 5.3+
         } else {
             $request = $this->requestStack->getMasterRequest();

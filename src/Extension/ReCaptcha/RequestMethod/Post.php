@@ -15,14 +15,7 @@ class Post implements RequestMethod
      *
      * @var string
      */
-    private string $recaptchaVerifyUrl;
-
-    /**
-     * The timeout for the reCAPTCHA verification.
-     *
-     * @var int|null
-     */
-    private ?int $timeout;
+    private readonly string $recaptchaVerifyUrl;
 
     /** @var array */
     private array $cache;
@@ -33,10 +26,12 @@ class Post implements RequestMethod
      * @param string   $recaptchaVerifyServer
      * @param int|null $timeout
      */
-    public function __construct(string $recaptchaVerifyServer, ?int $timeout)
+    public function __construct(string $recaptchaVerifyServer, /**
+     * The timeout for the reCAPTCHA verification.
+     */
+    private readonly ?int $timeout)
     {
         $this->recaptchaVerifyUrl = ($recaptchaVerifyServer ?: 'https://www.google.com').'/recaptcha/api/siteverify';
-        $this->timeout = $timeout;
         $this->cache = [];
     }
 
