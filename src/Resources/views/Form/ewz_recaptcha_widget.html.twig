@@ -1,5 +1,5 @@
 {% block ewz_recaptcha_widget %}
-{% apply spaceless %}
+
   {% if form.vars.ewz_recaptcha_enabled %}
     {% if not form.vars.ewz_recaptcha_ajax %}
       {% if attr.options.size == 'invisible' and attr.options.callback is not defined %}
@@ -31,22 +31,22 @@
         </script>
       {% endif %}
 
-      <script src="{{ form.vars.url_challenge }}"
+      <script src="{{- form.vars.url_challenge -}}"
         {%- if attr.options.defer is defined and attr.options.defer %} defer{% endif -%}
         {%- if attr.options.async is defined and attr.options.async %} async{% endif -%}
       ></script>
-      <div class="g-recaptcha" data-theme="{{ attr.options.theme }}" data-size="{{ attr.options.size }}" data-type="{{ attr.options.type }}" data-sitekey="{{ form.vars.public_key }}"
-         {%- if attr.options.callback is defined %} data-callback="{{ attr.options.callback }}"{% endif -%}
-         {%- if attr.options.errorCallback is defined %} data-error-callback="{{ attr.options.errorCallback }}"{% endif -%}
-         {%- if attr.options.expiredCallback is defined %} data-expired-callback="{{ attr.options.expiredCallback }}"{% endif -%}
-         {%- if attr.options.bind is defined %} data-bind="{{ attr.options.bind }}"{% endif -%}
-         {%- if attr.options.badge is defined %} data-badge="{{ attr.options.badge }}"{% endif -%}
+      <div class="g-recaptcha" data-theme="{{- attr.options.theme -}}" data-size="{{- attr.options.size -}}" data-type="{{- attr.options.type -}}" data-sitekey="{{- form.vars.public_key -}}"
+         {%- if attr.options.callback is defined %} data-callback="{{- attr.options.callback -}}"{% endif -%}
+         {%- if attr.options.errorCallback is defined %} data-error-callback="{{- attr.options.errorCallback -}}"{% endif -%}
+         {%- if attr.options.expiredCallback is defined %} data-expired-callback="{{- attr.options.expiredCallback -}}"{% endif -%}
+         {%- if attr.options.bind is defined %} data-bind="{{- attr.options.bind -}}"{% endif -%}
+         {%- if attr.options.badge is defined %} data-badge="{{- attr.options.badge -}}"{% endif -%}
       ></div>
       <noscript>
         <div style="width: 302px; height: 352px;">
           <div style="width: 302px; height: 352px; position: relative;">
             <div style="width: 302px; height: 352px; position: absolute;">
-              <iframe src="https://{{ form.vars.ewz_recaptcha_api_host }}/recaptcha/api/fallback?k={{ form.vars.public_key }}"
+              <iframe src="https://{{- form.vars.ewz_recaptcha_api_host -}}/recaptcha/api/fallback?k={{- form.vars.public_key -}}"
                   style="width: 302px; height:352px; border-style: none; overflow: hidden;"
               >
               </iframe>
@@ -69,9 +69,9 @@
         var script = document.createElement('script');
         script.type = 'text/javascript';
         script.onload = function() {
-          Recaptcha.create('{{ form.vars.public_key }}', 'ewz_recaptcha_div', {{ attr.options|default({})|json_encode|raw }});
+          Recaptcha.create('{{- form.vars.public_key -}}', 'ewz_recaptcha_div', {{- attr.options|default({})|json_encode|raw -}});
         };
-        script.src = '{{ form.vars.url_api }}';
+        script.src = '{{- form.vars.url_api -}}';
         {% if attr.options.defer is defined and attr.options.defer %}script.defer = true;{% endif %}
         {% if attr.options.async is defined and attr.options.async %}script.async = true;{% endif %}
         document.getElementsByTagName('head')[0].appendChild(script);
@@ -79,6 +79,6 @@
       </script>
     {% endif %}
   {% endif %}
-{% endapply %}
+
 {% endblock ewz_recaptcha_widget %}
 
