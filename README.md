@@ -10,7 +10,7 @@ This is a fork of excelwebzone/EWZRecaptchaBundle compliant with Symfony 7.0 req
 29-12-2023: This fork fix some minor bugs of the original bundle.
 29-12-2023: Fix JS scoping rules
 29-12-2023: Complete support to Symfony 7.0 and PHP >=7.4
-
+03-03-2025: Complete support for PHP 8.4
 
 ## Installation
 
